@@ -18,3 +18,11 @@ def obtener_tipo_casa(x):
 
 def string_to_price(x):
     return pd.to_numeric(x.split()[0].replace(".",""),errors='coerce')
+
+def string_to_dicotomic(x):
+    if not pd.isnull(x):
+        return 1
+    else:
+        return 0
+
+
