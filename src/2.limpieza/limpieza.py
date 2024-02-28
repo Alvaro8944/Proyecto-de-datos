@@ -105,16 +105,16 @@ def extraer_numero_dormitorios(texto):
         return None  # Devuelve None si no se encontró ningún número de dormitorios o habitaciones
 
 
-def leer_distritos_barrios():
-    datos_distritos = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/barrios_municipio_madrid.csv',encoding='latin1',sep =";")
+def leer_distritos_barrios(url):
+    datos_distritos = pd.read_csv(url)
     nom_distritos = datos_distritos["distrito_nombre"].unique()
     nom_distritos = [s.strip() for s in nom_distritos]
     nom_barrios = datos_distritos["barrio_nombre"].unique()
     nom_barrios = [s.strip() for s in nom_barrios]
     return nom_distritos, nom_barrios
 
-def leer_municipios():
-    datos_municipios = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/municipio_comunidad_madrid.csv',encoding='latin1',sep =";")
+def leer_municipios(url):
+    datos_municipios = pd.read_csv(url,encoding='latin1',sep =";")
     nom_municipios = datos_municipios["municipio_nombre"].unique()
     nom_municipios = [s.strip() for s in nom_municipios]
     return nom_municipios
@@ -147,9 +147,9 @@ def get_distrito(localizacion, nom_localizaciones):
             return distrito
     return None
 
-def transformar_localizacion(datos):
-    nom_distritos, nom_barrios = leer_distritos_barrios()
-    nom_municipios = leer_municipios()
+def transformar_localizacion(datos,urls):
+    nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
+    nom_municipios = leer_municipios(urls[1])
     nom_localizaciones = np.append(nom_distritos,nom_barrios)
     nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
     nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
