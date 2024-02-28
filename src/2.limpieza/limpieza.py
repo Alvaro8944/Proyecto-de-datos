@@ -15,3 +15,6 @@ def string_to_int(x):
 
 def obtener_tipo_casa(x):
     return x.split("/")[4]
+
+def string_to_price(x):
+    return pd.to_numeric(x.split()[0].replace(".",""),errors='coerce')
