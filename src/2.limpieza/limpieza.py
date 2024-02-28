@@ -103,3 +103,55 @@ def extraer_numero_dormitorios(texto):
             return numeros_texto.get(numero.lower(), None)
     else:
         return None  # Devuelve None si no se encontró ningún número de dormitorios o habitaciones
+
+
+def leer_distritos_barrios():
+    datos_distritos = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/barrios_municipio_madrid.csv',encoding='latin1',sep =";")
+    nom_distritos = datos_distritos["distrito_nombre"].unique()
+    nom_distritos = [s.strip() for s in nom_distritos]
+    nom_barrios = datos_distritos["barrio_nombre"].unique()
+    nom_barrios = [s.strip() for s in nom_barrios]
+    return nom_distritos, nom_barrios
+
+def leer_municipios():
+    datos_municipios = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/municipio_comunidad_madrid.csv',encoding='latin1',sep =";")
+    nom_municipios = datos_municipios["municipio_nombre"].unique()
+    nom_municipios = [s.strip() for s in nom_municipios]
+    return nom_municipios
+
+def arreglar_localizaciones(nom_localizaciones):
+    nom_localizaciones = np.delete(nom_localizaciones, np.where(nom_localizaciones == "Centro"))
+    nom_localizaciones = np.delete(nom_localizaciones, np.where(nom_localizaciones == "Madrid"))
+    nom_localizaciones = np.append(nom_localizaciones,"El Molar")
+    nom_localizaciones = np.append(nom_localizaciones,"El Álamo")
+    nom_localizaciones = np.append(nom_localizaciones,"Rio")
+    nom_localizaciones = np.append(nom_localizaciones,"Montecarmelo")
+    nom_localizaciones = np.append(nom_localizaciones,"Arroyo Del Fresno")
+    nom_localizaciones = np.append(nom_localizaciones,"Salvador")
+    nom_localizaciones = np.append(nom_localizaciones,"Virgen del Cortijo")
+    nom_localizaciones = np.append(nom_localizaciones,"San Cristóbal")
+    nom_localizaciones = np.append(nom_localizaciones,"Moscardo")
+    nom_localizaciones = np.append(nom_localizaciones,"Pilar")
+    nom_localizaciones = np.append(nom_localizaciones,"Fuencarral")
+    nom_localizaciones = np.append(nom_localizaciones,"Puerta Del Ángel")
+    nom_localizaciones = np.append(nom_localizaciones,"Peñagrande")
+    nom_localizaciones = np.append(nom_localizaciones,"Las Rozas De Madrid")
+    nom_localizaciones = np.append(nom_localizaciones,"Los Santos De La Humosa")
+    nom_localizaciones = np.append(nom_localizaciones,"Centro")
+    nom_localizaciones = np.append(nom_localizaciones,"Madrid")
+    return nom_localizaciones
+
+def get_distrito(localizacion, nom_localizaciones):
+    for distrito in nom_localizaciones:
+        if buscar_palabra(localizacion, distrito):
+            return distrito
+    return None
+
+def transformar_localizacion(datos):
+    nom_distritos, nom_barrios = leer_distritos_barrios()
+    nom_municipios = leer_municipios()
+    nom_localizaciones = np.append(nom_distritos,nom_barrios)
+    nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
+    nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
+    datos["distrito/ciudad"] = datos["Localización"].apply(lambda x: get_distrito(x, nom_localizaciones))
+    return datos
