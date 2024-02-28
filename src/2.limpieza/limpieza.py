@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 import re
+from time import sleep
+from geopy.geocoders import Nominatim
 
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
@@ -45,7 +47,28 @@ def analizar_descripcion(texto):
     return int(ascensor),int(reformar),num_habitaciones,num_baños
 
 
+distritos = pd.read_csv('')
 
+def get_coords(lugar):
+    geolocator = Nominatim(user_agent="Usuario")
+    address = f'{lugar}'
+    location = geolocator.geocode(address)
+    if location is not None:
+        latitude = location.latitude
+        longitude = location.longitude
+    else:
+        latitude = longitude = np.NaN
+    sleep(2)
+    return pd.Series({"Latitud": latitude, "Longitude": longitude})
+
+
+df = pd.DataFrame({"Neighbourhood": ("Alcorcón",
+                                     "Mostoles",
+                                     "Las Rozas de Madrid",
+                                     "Madrid centro"
+                                     )})
+
+lldata = pd.concat([df, df.Neighbourhood.apply(get_coords)], axis=1)
 
 
 
