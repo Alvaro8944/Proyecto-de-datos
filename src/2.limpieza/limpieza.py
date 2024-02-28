@@ -6,10 +6,10 @@ from geopy.geocoders import Nominatim
 
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
-datos = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/Casas_todas.csv',usecols = lambda columna: columna!= "Unnamed: 0")
+##datos = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/Casas_todas.csv',usecols = lambda columna: columna!= "Unnamed: 0")
 
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
-print(datos.head())
+##print(datos.head())
 
 #Funciones publicas
 
@@ -47,7 +47,7 @@ def analizar_descripcion(texto):
     return int(ascensor),int(reformar),num_habitaciones,num_baños
 
 
-distritos = pd.read_csv('')
+#distritos = pd.read_csv('')
 
 def get_coords(lugar):
     geolocator = Nominatim(user_agent="Usuario")
