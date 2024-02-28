@@ -70,6 +70,14 @@ df = pd.DataFrame({"Neighbourhood": ("Alcorcón",
 
 lldata = pd.concat([df, df.Neighbourhood.apply(get_coords)], axis=1)
 
+def transformar_localizacion(datos,urls):
+    nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
+    nom_municipios = leer_municipios(urls[1])
+    nom_localizaciones = np.append(nom_distritos,nom_barrios)
+    nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
+    nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
+    datos["distrito/ciudad"] = datos["Localización"].apply(lambda x: get_distrito(x, nom_localizaciones))
+    return datos
 
 
 
@@ -146,12 +154,3 @@ def get_distrito(localizacion, nom_localizaciones):
         if buscar_palabra(localizacion, distrito):
             return distrito
     return None
-
-def transformar_localizacion(datos,urls):
-    nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
-    nom_municipios = leer_municipios(urls[1])
-    nom_localizaciones = np.append(nom_distritos,nom_barrios)
-    nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
-    nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
-    datos["distrito/ciudad"] = datos["Localización"].apply(lambda x: get_distrito(x, nom_localizaciones))
-    return datos
