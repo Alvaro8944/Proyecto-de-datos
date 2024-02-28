@@ -9,6 +9,8 @@ datos = pd.read_csv('C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/Casas_todas
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
 print(datos.head())
 
+#Funciones publicas
+
 def string_to_int(x):
     if not pd.isnull(x):
         x_split = x.split()
@@ -35,6 +37,20 @@ def transformar_en_dicotomicas(datos):
         datos[columna] = datos[columna].apply(string_to_dicotomic)
     return datos
 
+def analizar_descripcion(texto):
+    ascensor = buscar_palabra(texto, "ascensor")
+    reformar = buscar_palabra(texto, "reformar")
+    num_habitaciones = extraer_numero_dormitorios(texto)
+    num_baños = extraer_numero_dormitorios(texto)
+    return int(ascensor),int(reformar),num_habitaciones,num_baños
+
+
+
+
+
+
+
+#Funciones auxiliares privadas
 
 def buscar_palabra(texto, palabra):
     # Convertir el texto y la palabra a minúsculas para hacer la búsqueda insensible a mayúsculas
