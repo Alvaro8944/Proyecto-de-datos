@@ -12,3 +12,6 @@ def string_to_int(x):
         return int(x_split[0])
     else:
         return np.nan
+
+def obtener_tipo_casa(x):
+    return x.split("/")[4]
