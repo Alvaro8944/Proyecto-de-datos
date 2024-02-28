@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
@@ -25,4 +26,9 @@ def string_to_dicotomic(x):
     else:
         return 0
 
-
+def transformarEnDicotomicas(datos):
+    columnasDicotomicas = ["Calefaccion","Ascensor","Aire acondicionado","Jardin"]
+    for columna in columnasDicotomicas:
+        datos[columna] = datos[columna].replace("No disponible",np.nan)
+        datos[columna] = datos[columna].apply(string_to_dicotomic)
+    return datos
