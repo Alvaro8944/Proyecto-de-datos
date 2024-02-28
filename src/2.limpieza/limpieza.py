@@ -67,7 +67,7 @@ def buscar_palabra(texto, palabra):
         return False
 
 def extraer_numero_dormitorios(texto):
-    # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es)"
+    # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es) o baño(s)"
     resultado = re.search(r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación|baño)(es|s)?', texto, re.IGNORECASE)
 
     if resultado:
