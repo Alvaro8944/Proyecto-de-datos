@@ -85,32 +85,37 @@ def transformar_localizacion(datos,urls):
 
 def buscar_palabra(texto, palabra):
     # Convertir el texto y la palabra a minúsculas para hacer la búsqueda insensible a mayúsculas
-    texto = texto.lower()
-    palabra = palabra.lower()
+    if not pd.isnull(texto):
+        texto = texto.lower()
+        palabra = palabra.lower()
 
     # Buscar la palabra en el texto utilizando una expresión regular
-    resultado = re.search(r'\b' + re.escape(palabra) + r'(?=\s|\W|$)', texto)
+        resultado = re.search(r'\b' + re.escape(palabra) + r'(?=\s|\W|$)', texto)
 
 
-    if resultado:
-        return True
-    else:
-        return False
+        if resultado:
+            return True
+        else:
+            return False
+    return False
 
 def extraer_numero_dormitorios(texto):
-    # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es) o baño(s)"
-    resultado = re.search(r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación|baño)(es|s)?', texto, re.IGNORECASE)
+    # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es)"
+    if not pd.isnull(texto):
+        resultado = re.search(r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación|baño)(es|s)?', texto, re.IGNORECASE)
 
-    if resultado:
-        numero = resultado.group(1)
-        # Convertir el número encontrado (que puede estar en dígitos o palabras) a su equivalente en dígitos
-        if numero.isdigit():
-            return int(numero)
+        if resultado:
+            numero = resultado.group(1)
+            # Convertir el número encontrado (que puede estar en dígitos o palabras) a su equivalente en dígitos
+            if numero.isdigit():
+                return int(numero)
+            else:
+                numeros_texto = {"un": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10}
+                return numeros_texto.get(numero.lower(), None)
         else:
-            numeros_texto = {"un": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6, "siete": 7, "ocho": 8, "nueve": 9, "diez": 10}
-            return numeros_texto.get(numero.lower(), None)
-    else:
-        return None  # Devuelve None si no se encontró ningún número de dormitorios o habitaciones
+            return None  # Devuelve None si no se encontró ningún número de dormitorios o habitaciones
+    return None
+
 
 
 def leer_distritos_barrios(url):
