@@ -41,10 +41,10 @@ def transformar_en_dicotomicas(datos):
 
 def analizar_descripcion(texto):
     ascensor = buscar_palabra(texto, "ascensor")
-    reformar = buscar_palabra(texto, "reformar")
-    num_habitaciones = extraer_numero_dormitorios(texto)
-    num_baños = extraer_numero_dormitorios(texto)
-    return int(ascensor),int(reformar),num_habitaciones,num_baños
+    num_habitaciones = extraer_numero_dormitorios_baños(texto,r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación)s?')
+    num_baños = extraer_numero_dormitorios_baños(texto,r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+baño(s)?')
+    anio_de_construccion = extraer_anio_construccion(texto,r'\b(19|20)\d{2}\b')
+    return int(ascensor),num_habitaciones,num_baños,anio_de_construccion
 
 
 #distritos = pd.read_csv('')
@@ -83,6 +83,7 @@ def transformar_localizacion(datos,urls):
 
 #Funciones auxiliares privadas
 
+#Funciones auxiliares privadas
 def buscar_palabra(texto, palabra):
     # Convertir el texto y la palabra a minúsculas para hacer la búsqueda insensible a mayúsculas
     if not pd.isnull(texto):
@@ -99,10 +100,10 @@ def buscar_palabra(texto, palabra):
             return False
     return False
 
-def extraer_numero_dormitorios(texto):
+def extraer_numero_dormitorios_baños(texto,exp_regular):
     # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es)"
     if not pd.isnull(texto):
-        resultado = re.search(r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación|baño)(es|s)?', texto, re.IGNORECASE)
+        resultado = re.search(exp_regular, texto, re.IGNORECASE)
 
         if resultado:
             numero = resultado.group(1)
@@ -116,7 +117,13 @@ def extraer_numero_dormitorios(texto):
             return None  # Devuelve None si no se encontró ningún número de dormitorios o habitaciones
     return None
 
-
+def extraer_anio_construccion(texto,exp_regular):
+    if not pd.isnull(texto):
+        resultado = re.search(exp_regular, texto, re.IGNORECASE)
+        if resultado:
+            return resultado.group(0)
+        else:
+            return None
 
 def leer_distritos_barrios(url):
     datos_distritos = pd.read_csv(url)
