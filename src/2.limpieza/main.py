@@ -84,13 +84,19 @@ datos.loc[datos["Etiqueta"].isna(),"Etiqueta"] = "En proceso"
 
 # obtener el distrito de la vivienda
 urls = ["/Users/hamzatriki/Downloads/barrios_municipio_madrid.csv","/Users/hamzatriki/Downloads/municipio_comunidad_madrid.csv"]
-limpieza.transformar_localizacion(datos,urls)
+datos = limpieza.transformar_localizacion(datos,urls)
 
 # Nos quedamos solo con los viviendas de tipo "casa","piso"y "ático
 viviendas = ["casa","piso","atico"]
 filtro_viviendas = datos["Tipo"].isin(viviendas)
 datos_viviendas = datos[filtro_viviendas]
 datos_viviendas.info()
+
+#obtener cordenadas
+dataframe_cord = datos_viviendas["distrito/ciudad"].apply(limpieza.get_coords)
+print(dataframe_cord)
+
+
 
 
 
