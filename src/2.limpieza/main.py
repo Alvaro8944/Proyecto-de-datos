@@ -98,9 +98,9 @@ cordenadas_aux = datos_viviendas["Localización"].apply(limpieza.get_coords)
 dataframe_cord = pd.read_csv("C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/Cordenadas1.csv",usecols = lambda columna: columna!= "Unnamed: 0")
 cordenadas_aux = pd.read_csv("C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/Cordenadas2.csv",usecols = lambda columna: columna!= "Unnamed: 0")
 datos_viviendas = datos_viviendas.reset_index(drop = True)
-dataframe = pd.concat([datos_viviendas,dataframe_cord],axis =1)
-dataframe["Latitud"] = dataframe["Latitud"].fillna(cordenadas_aux["Latitud"])
-dataframe["Longitude"] = dataframe["Longitude"].fillna(cordenadas_aux["Longitude"])
+datos_viviendas = pd.concat([datos_viviendas,dataframe_cord],axis =1)
+datos_viviendas["Latitud"] = datos_viviendas["Latitud"].fillna(cordenadas_aux["Latitud"])
+datos_viviendas["Longitude"] = datos_viviendas["Longitude"].fillna(cordenadas_aux["Longitude"])
 print(dataframe_cord)
 
 
