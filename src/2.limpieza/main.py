@@ -94,7 +94,15 @@ datos_viviendas.info()
 
 #obtener cordenadas
 dataframe_cord = datos_viviendas["distrito/ciudad"].apply(limpieza.get_coords)
+cordenadas_aux = datos_viviendas["Localización"].apply(limpieza.get_coords)
+dataframe_cord = pd.read_csv("/Users/hamzatriki/Downloads/Cordenadas1",usecols = lambda columna: columna!= "Unnamed: 0")
+cordenadas_aux = pd.read_csv("/Users/hamzatriki/Downloads/Cordenadas1",usecols = lambda columna: columna!= "Unnamed: 0")
+datos_viviendas = datos_viviendas.reset_index(drop = True)
+dataframe = pd.concat([datos_viviendas,dataframe_cord],axis =1)
+dataframe["Latitud"] = dataframe["Latitud"].fillna(cordenadas_aux["Latitud"])
+dataframe["Longitude"] = dataframe["Longitude"].fillna(cordenadas_aux["Longitude"])
 print(dataframe_cord)
+
 
 
 
