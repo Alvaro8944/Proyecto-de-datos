@@ -109,7 +109,7 @@ limpieza.imputar_valores(['Precio', 'Superficie'],'Dormitorios',datos_viviendas)
 limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
 limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
 datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
-datos_viviendas.drop("Planta", axis=1, inplace=True)
+datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 print(datos_viviendas.info())
 
 
