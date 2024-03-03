@@ -71,8 +71,8 @@ df = pd.DataFrame({"Neighbourhood": ("Alcorcón",
 lldata = pd.concat([df, df.Neighbourhood.apply(get_coords)], axis=1)
 
 def transformar_localizacion(datos,urls):
-    nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
     nom_municipios = leer_municipios(urls[1])
+    nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
     nom_localizaciones = np.append(nom_distritos,nom_barrios)
     nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
     nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
@@ -126,7 +126,7 @@ def extraer_anio_construccion(texto,exp_regular):
             return None
 
 def leer_distritos_barrios(url):
-    datos_distritos = pd.read_csv(url)
+    datos_distritos = pd.read_csv(url,encoding='latin1',sep =";")
     nom_distritos = datos_distritos["distrito_nombre"].unique()
     nom_distritos = [s.strip() for s in nom_distritos]
     nom_barrios = datos_distritos["barrio_nombre"].unique()
