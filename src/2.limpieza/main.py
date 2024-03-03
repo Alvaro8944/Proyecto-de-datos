@@ -1,6 +1,61 @@
 import limpieza
 import pandas as pd
 import numpy as np
+import requests
+import os
+
+
+def descargar_archivo_directo(id_archivo, directorio_destino, archivo_destino):
+    """
+    Descarga un archivo directamente desde Google Drive y lo guarda localmente.
+
+    Parámetros:
+    - id_archivo (str): ID del archivo en Google Drive.
+    - directorio_destino (str): Ruta del directorio local donde se guardará el archivo.
+    - archivo_destino (str): Nombre deseado para el archivo en local
+
+    Devuelve:
+    - archivo_destino (str): Nombre del archivo guardado.
+    - ruta_completa (str): Ruta completa del archivo guardado.
+    """
+    # Construye la URL de descarga directa utilizando el ID del archivo
+    url = f"https://drive.google.com/uc?export=download&id={id_archivo}"
+
+    # Realiza la petición HTTP GET para descargar el archivo
+    respuesta = requests.get(url, allow_redirects=True)
+
+    # Comprueba que el directorio destino existe, si no, lo crea
+    os.makedirs(directorio_destino, exist_ok=True)
+
+    # Construye la ruta completa donde se guardará el archivo en local
+    ruta_completa = os.path.join(directorio_destino, archivo_destino)
+
+    # Guarda el contenido del archivo descargado en local
+    with open(ruta_completa, 'wb') as archivo:
+        archivo.write(respuesta.content)
+
+
+    return archivo_destino, ruta_completa
+
+def procesar_archivo_info(ruta_archivo_info):
+    """
+    Procesa un archivo de texto que contiene información sobre los archivos a descargar.
+
+    Parámetros:
+    - ruta_archivo_info (str): Ruta del archivo de texto que contiene los IDs de Google Drive,
+                               los nombres de los archivos locales y las rutas locales.
+
+    Devuelve:
+    - Una lista de tuplas con el ID de Google Drive, el nombre local del archivo, y la ruta local.
+    """
+    archivos_info = []
+    with open(ruta_archivo_info, 'r') as archivo:
+        for linea in archivo:
+            id_archivo, nombre_archivo, directorio_destino = linea.strip().split(',')
+            archivos_info.append((id_archivo, nombre_archivo, directorio_destino))
+    return archivos_info
+
+
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
 url = '/Users/hamzatriki/DatosCasas'
