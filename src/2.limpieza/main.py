@@ -18,7 +18,8 @@ datos = datos.drop(columns = ["Enlace"])
 datos["Precio"] = datos["Precio"].apply(limpieza.string_to_price)
 
 datos = limpieza.transformar_en_dicotomicas(datos)
-"""
+""" 
+probar
 dataframe_descripcion = datos["Descripción"].apply(limpieza.analizar_descripcion())
 columnas =["Ascensor", "Dormitorios","Num_baños"]
 dataframe_descripcion = pd.DataFrame(dataframe_descripcion.tolist(), columns = columnas)
