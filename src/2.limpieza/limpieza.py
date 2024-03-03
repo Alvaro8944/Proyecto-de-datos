@@ -62,14 +62,6 @@ def get_coords(lugar):
     return pd.Series({"Latitud": latitude, "Longitude": longitude})
 
 
-df = pd.DataFrame({"Neighbourhood": ("Alcorcón",
-                                     "Mostoles",
-                                     "Las Rozas de Madrid",
-                                     "Madrid centro"
-                                     )})
-
-lldata = pd.concat([df, df.Neighbourhood.apply(get_coords)], axis=1)
-
 def transformar_localizacion(datos,urls):
     nom_municipios = leer_municipios(urls[1])
     nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
