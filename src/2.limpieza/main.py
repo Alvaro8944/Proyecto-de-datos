@@ -103,27 +103,25 @@ datos_viviendas["Latitud"] = datos_viviendas["Latitud"].fillna(cordenadas_aux["L
 datos_viviendas["Longitude"] = datos_viviendas["Longitude"].fillna(cordenadas_aux["Longitude"])
 print(dataframe_cord)
 
+"""
 ## Forma 1 Elimando las filas con NaN
 
 datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","Año_de_construccion"], inplace=True)
 
-## Forma 2 Imputación de valores
 """
+## Forma 2 Imputación de valores
 
 ## variables num_dormitorios
 limpieza.imputar_valores(['Precio', 'Superficie'],'Dormitorios',datos_viviendas)
 limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
 limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
-datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
-datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 print(datos_viviendas.info())
-"""
+
 ## elimanos la variable planta debido a su gran número de Nulos y la variable localización porque es redundante con distrito
 datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
 datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 print(datos_viviendas.info())
-
-
+datos_viviendas.to_csv("/Users/hamzatriki/2ªProyectoDeDatos/DatosProcesadosConImputacion")
 
 
 
