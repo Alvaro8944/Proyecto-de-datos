@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from time import sleep
 from geopy.geocoders import Nominatim
+from sklearn.linear_model import LinearRegression
 
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
@@ -158,3 +159,20 @@ def get_distrito(localizacion, nom_localizaciones):
         if buscar_palabra(localizacion, distrito):
             return distrito
     return None
+
+def imputar_valores(variables_entrada,variable_imputada,datos_viviendas):
+    df_known = datos_viviendas.dropna(subset=[variable_imputada])
+    df_unknown = datos_viviendas[datos_viviendas[variable_imputada].isna()]
+
+    # Entrenar el modelo de regresión lineal usando las variables de entrada e imputar la variable que queremos
+    X_train = df_known[variables_entrada]
+    y_train = df_known[variable_imputada]
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+
+    # Predecir los valores de año de construcción para los datos con valores faltantes
+    X_pred = df_unknown[variables_entrada]
+    predicted = model.predict(X_pred)
+
+    # Asignar los valores predichos al DataFrame original
+    datos_viviendas.loc[datos_viviendas[variable_imputada].isna(), variable_imputada] = predicted
