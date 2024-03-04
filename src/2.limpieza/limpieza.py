@@ -15,6 +15,9 @@ from sklearn.linear_model import LinearRegression
 #Funciones publicas
 
 def string_to_int(x):
+    """recibe un string que sigue la siguiente estructura : dígito seguido de una característica (2 dormitorios,3 baños)
+    y devuelve el entero
+    """
     if not pd.isnull(x):
         x_split = x.split()
         return int(x_split[0])
@@ -22,18 +25,26 @@ def string_to_int(x):
         return np.nan
 
 def obtener_tipo_casa(x):
+    """ recibe un enlace como el siguiente "https://www.tecnocasa.es/venta/piso/madrid/madrid/523991.html" y devuelve
+    que tipo de vivienda es, en este caso /piso/"""
     return x.split("/")[4]
 
 def string_to_price(x):
+    """recibe el precio de una casa en formato "25.000 €" elimina el simbolo del euro y devuelve un entero
+    representando el precio"""
     return pd.to_numeric(x.split()[0].replace(".",""),errors='coerce')
 
 def string_to_dicotomic(x):
+    """Funcion auxiliar,Recibe un objeto, si este es Nan considera que dicha vivienda no dispone de esa característica,
+    en caso contrario,si"""
     if not pd.isnull(x):
         return 1
     else:
         return 0
 
 def transformar_en_dicotomicas(datos):
+    """Recorre las columnas [Calefaccion","Ascensor","Aire acondicionado","Jardin"] y decide si la vivienda dispone
+     de esa característica"""
     columnasDicotomicas = ["Calefaccion","Ascensor","Aire acondicionado","Jardin"]
     for columna in columnasDicotomicas:
         datos[columna] = datos[columna].replace("No disponible",np.nan)
@@ -41,6 +52,9 @@ def transformar_en_dicotomicas(datos):
     return datos
 
 def analizar_descripcion(texto):
+    """Recibe un string que representa la descripción de cada vivienda, usamos la descripción para completar nuestros datos
+    ya que tenemos algunos nulos en variables como "num_habitaciones" o "num_baños" y podemos sacar esa información de la descripción,
+    """
     ascensor = buscar_palabra(texto, "ascensor")
     num_habitaciones = extraer_numero_dormitorios_baños(texto,r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+(dormitorio|habitación)s?')
     num_baños = extraer_numero_dormitorios_baños(texto,r'(\b\d+\b|(un(o|a)?|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez)\b)\s+baño(s)?')
