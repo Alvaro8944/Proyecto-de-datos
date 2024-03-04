@@ -143,6 +143,8 @@ def extraer_anio_construccion(texto,exp_regular):
             return None
 
 def leer_distritos_barrios(url):
+    """Recibe una url y se encarga de leer el csv de la url. Devuelve dos arrays:
+    uno con los nombres de los distritos y otro con los nombres de los barrios de Madrid"""
     datos_distritos = pd.read_csv(url,encoding='latin1',sep =";")
     nom_distritos = datos_distritos["distrito_nombre"].unique()
     nom_distritos = [s.strip() for s in nom_distritos]
@@ -151,12 +153,16 @@ def leer_distritos_barrios(url):
     return nom_distritos, nom_barrios
 
 def leer_municipios(url):
+    """Recibe una url y se encarga de leer el csv de la url. Devuelve un array con todos los
+    municipios de madrid"""
     datos_municipios = pd.read_csv(url,encoding='latin1',sep =";")
     nom_municipios = datos_municipios["municipio_nombre"].unique()
     nom_municipios = [s.strip() for s in nom_municipios]
     return nom_municipios
 
 def arreglar_localizaciones(nom_localizaciones):
+    """Se encarga de arreglar el array de localizaciones para que no haya errores al aplicar
+    la función get_distrito()"""
     nom_localizaciones = np.delete(nom_localizaciones, np.where(nom_localizaciones == "Centro"))
     nom_localizaciones = np.delete(nom_localizaciones, np.where(nom_localizaciones == "Madrid"))
     nom_localizaciones = np.append(nom_localizaciones,"El Molar")
@@ -179,6 +185,8 @@ def arreglar_localizaciones(nom_localizaciones):
     return nom_localizaciones
 
 def get_distrito(localizacion, nom_localizaciones):
+    """Recibe una localización y una lista de localizaciones. Busca en la lista de localizaciones
+     la localización dicha y si la encuentra la devuelve en caso contrario devuelve None."""
     for distrito in nom_localizaciones:
         if buscar_palabra(localizacion, distrito):
             return distrito
