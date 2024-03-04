@@ -193,6 +193,7 @@ def get_distrito(localizacion, nom_localizaciones):
     return None
 
 def imputar_valores(variables_entrada,variable_imputada,datos_viviendas):
+    """Para evitar los NaNs predice o imputa utilizando regresión los valores para sustituir dichos NaNs."""
     df_known = datos_viviendas.dropna(subset=[variable_imputada])
     df_unknown = datos_viviendas[datos_viviendas[variable_imputada].isna()]
 

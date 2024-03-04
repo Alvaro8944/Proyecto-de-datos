@@ -115,8 +115,11 @@ datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","A�
 
 ## variables num_dormitorios
 limpieza.imputar_valores(['Precio', 'Superficie'],'Dormitorios',datos_viviendas)
+datos_viviendas["Dormitorios"] = datos_viviendas["Dormitorios"].round().astype(int)
 limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
+datos_viviendas["Num_baños"] = datos_viviendas["Num_baños"].round().astype(int)
 limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
+datos_viviendas["Año_de_construccion"] = datos_viviendas["Año_de_construccion"].round().astype(int)
 print(datos_viviendas.info())
 
 ## elimanos la variable planta debido a su gran número de Nulos y la variable localización porque es redundante con distrito
