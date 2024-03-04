@@ -78,17 +78,16 @@ datos["Precio"] = datos["Precio"].apply(limpieza.string_to_price)
 datos = limpieza.transformar_en_dicotomicas(datos)
 ## analizar la descripción
 dataframe_descripcion = datos["Descripción"].apply(limpieza.analizar_descripcion)
-columnas =["Dormitorios","Num_baños","Año_de_construccion"]
+columnas =["Ascensor","Dormitorios","Num_baños","Año_de_construccion"]
 dataframe_descripcion = pd.DataFrame(dataframe_descripcion.tolist(), columns = columnas)
-for columna in columnas:
+for columna in columnas[1:]:
     datos[columna] = datos[columna].fillna(dataframe_descripcion[columna])
 datos["Ascensor"] = datos["Ascensor"].combine(dataframe_descripcion["Ascensor"],max)
 datos.loc[datos["Etiqueta"].isna(),"Etiqueta"] = "En proceso"
 
 # obtener el distrito de la vivienda
 urls = ["/Users/hamzatriki/Downloads/barrios_municipio_madrid.csv","/Users/hamzatriki/Downloads/municipio_comunidad_madrid.csv"]
-datos = limpieza.transformar_localizacion(datos,urls)
-
+datos= limpieza.transformar_localizacion(datos,urls)
 # Nos quedamos solo con los viviendas de tipo "casa","piso"y "ático
 viviendas = ["casa","piso","atico"]
 filtro_viviendas = datos["Tipo"].isin(viviendas)
