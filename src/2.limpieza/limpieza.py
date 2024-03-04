@@ -65,6 +65,8 @@ def analizar_descripcion(texto):
 #distritos = pd.read_csv('')
 
 def get_coords(lugar):
+    """Recibe un lugar en formato string y haciendo usa de la librería Nominatim obtenemos las
+    coordenadas (latitud, longitud) de dicho lugar."""
     geolocator = Nominatim(user_agent="Usuario")
     address = f'{lugar}'
     location = geolocator.geocode(address)
@@ -78,6 +80,9 @@ def get_coords(lugar):
 
 
 def transformar_localizacion(datos,urls):
+    """Primero con las funciones leer_municipios() y leer_distritos_barrios() lee los distritos,
+    barrios y municipios de Madrid, los inserta todos en un array y aplica la funcion get_distrito()
+    a la columna localización. Creando así una nueva columna con el distrito o ciudad correcta."""
     nom_municipios = leer_municipios(urls[1])
     nom_distritos, nom_barrios = leer_distritos_barrios(urls[0])
     nom_localizaciones = np.append(nom_distritos,nom_barrios)
