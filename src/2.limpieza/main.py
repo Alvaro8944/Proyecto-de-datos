@@ -64,20 +64,23 @@ datos = pd.read_csv(url,usecols = lambda columna: columna!= "Unnamed: 0")
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
 print(datos.head())
 
+# Aplicamos la función string_to_int() a las columnas "Dormitorios","Superficie","Num_baños" en enteros
 ColumnasModificar = ["Dormitorios","Superficie","Num_baños"]
 for columna in ColumnasModificar:
     datos[columna] = datos[columna].replace("No disponible",np.nan)
     datos[columna] = datos[columna].apply(limpieza.string_to_int)
+# Obtenemos el tipo de casa a partir del enlace y eliminamos la columna Enlace
 datos["Tipo"] = datos["Enlace"].apply(limpieza.obtener_tipo_casa)
 datos = datos.drop(columns = ["Enlace"])
+
 datos["Precio"] = datos["Precio"].apply(limpieza.string_to_price)
 ## transformar las variables [Calefaccion","Ascensor","Aire acondicionado","Jardin"] en dicotómicas
 datos = limpieza.transformar_en_dicotomicas(datos)
 ## analizar la descripción
 dataframe_descripcion = datos["Descripción"].apply(limpieza.analizar_descripcion)
-columnas =["Ascensor", "Dormitorios","Num_baños","Año_de_construccion"]
+columnas =["Dormitorios","Num_baños","Año_de_construccion"]
 dataframe_descripcion = pd.DataFrame(dataframe_descripcion.tolist(), columns = columnas)
-for columna in columnas[1:]:
+for columna in columnas:
     datos[columna] = datos[columna].fillna(dataframe_descripcion[columna])
 datos["Ascensor"] = datos["Ascensor"].combine(dataframe_descripcion["Ascensor"],max)
 datos.loc[datos["Etiqueta"].isna(),"Etiqueta"] = "En proceso"
