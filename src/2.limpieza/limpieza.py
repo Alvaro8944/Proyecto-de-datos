@@ -97,6 +97,7 @@ def transformar_localizacion(datos,urls):
 
 #Funciones auxiliares privadas
 def buscar_palabra(texto, palabra):
+    """Recibe un texto y una palabra y devuelve True si dicha palabra se encuentra en el texto"""
     # Convertir el texto y la palabra a minúsculas para hacer la búsqueda insensible a mayúsculas
     if not pd.isnull(texto):
         texto = texto.lower()
@@ -113,6 +114,8 @@ def buscar_palabra(texto, palabra):
     return False
 
 def extraer_numero_dormitorios_baños(texto,exp_regular):
+    """Recibe un texto y una expresion regular y se encarga de devolver el numero de habitaciones en
+    caso de encontrarlo en el texto, y en caso contrario devuleve None."""
     # Buscar un número seguido de la expresión "dormitorio(s)" o "habitación(es)"
     if not pd.isnull(texto):
         resultado = re.search(exp_regular, texto, re.IGNORECASE)
@@ -130,6 +133,8 @@ def extraer_numero_dormitorios_baños(texto,exp_regular):
     return None
 
 def extraer_anio_construccion(texto,exp_regular):
+    """Recibe un texto y una expresion regular y se encarga de devolver el año de construcción en
+    caso de encontrarlo en el texto, y en caso contrario devuleve None."""
     if not pd.isnull(texto):
         resultado = re.search(exp_regular, texto, re.IGNORECASE)
         if resultado:
