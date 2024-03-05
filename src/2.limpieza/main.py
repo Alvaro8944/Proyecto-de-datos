@@ -2,6 +2,8 @@ import limpieza
 import pandas as pd
 import numpy as np
 
+##IMPORTANTE: Antes de ejecutar el codigo, asegurarse de que la linea 12 contiene tu ruta local de archivo_info.txt
+## y que la linea 107 tambien tenga una ruta local donde guardar los archivos de salida.
 
 #Descargar el archivo de los datos raw desde drive
 urls = []
@@ -25,7 +27,7 @@ for info in archivo_info:
 datos = pd.read_csv(urls[0],usecols = lambda columna: columna!= "Unnamed: 0")
 
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
-#print(datos.head())
+print(datos.head())
 
 
 # Aplicamos la función string_to_int() a las columnas "Dormitorios","Superficie","Num_baños" en enteros
@@ -97,7 +99,7 @@ datos_viviendas["Año_de_construccion"] = datos_viviendas["Año_de_construccion"
 datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
 datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 
-# Finalmente guardamos el fichero. Se debe modificar el nombre del fichero en funcion cual version estemos obteniendo,
+# Finalmente guardamos el fichero. Se debe modificar la ruta local y el nombre del fichero en funcion cual version estemos obteniendo,
 # la forma 1 (preprocesado1.parquet) o la forma 2 (preprocesado2.parquet).
 
 #datos_viviendas.to_csv("E:/UniversidadCoding/Segundo/resultados.csv")
