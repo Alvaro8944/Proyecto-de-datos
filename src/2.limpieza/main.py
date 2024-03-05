@@ -15,16 +15,15 @@ print(archivo_info)
 
 archivo_destino, ruta_completa = limpieza.descargar_archivo_directo(archivo_info[0][0],archivo_info[0][2],archivo_info[0][1])
 
-#print(archivo_destino,ruta_completa)
-
+print(archivo_destino,ruta_completa)
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
-url = '/Users/hamzatriki/DatosCasas'
-datos = pd.read_csv(url,usecols = lambda columna: columna!= "Unnamed: 0")
+datos = pd.read_csv(ruta_completa,usecols = lambda columna: columna!= "Unnamed: 0")
 
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
 print(datos.head())
 
+"""
 # Aplicamos la función string_to_int() a las columnas "Dormitorios","Superficie","Num_baños" en enteros
 ColumnasModificar = ["Dormitorios","Superficie","Num_baños"]
 for columna in ColumnasModificar:
@@ -89,7 +88,7 @@ datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 print(datos_viviendas.info())
 datos_viviendas.to_csv("/Users/hamzatriki/2ªProyectoDeDatos/DatosProcesadosConImputacion")
 
-
+"""
 
 
 
