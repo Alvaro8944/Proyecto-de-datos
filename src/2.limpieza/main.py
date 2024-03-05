@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 ##IMPORTANTE: Antes de ejecutar el codigo, asegurarse de que la linea 13 contiene tu ruta local de archivo_info.txt
-## y que la linea 107 tambien tenga una ruta local donde guardar los archivos de salida. Tambien modificar el archivo
+## y que la linea 111 tambien tenga una ruta local donde guardar los archivos de salida. Tambien modificar el archivo
 ## archivo_info.txt para que el ultimo argumento de cada linea sea la ruta local donde descargar los datos del drive.
 
 #Descargar el archivo de los datos raw desde drive
