@@ -4,57 +4,18 @@ import numpy as np
 import requests
 import os
 
+#Descargar el archivo de los datos raw desde drive
 
-def descargar_archivo_directo(id_archivo, directorio_destino, archivo_destino):
-    """
-    Descarga un archivo directamente desde Google Drive y lo guarda localmente.
+ruta = "E:/UniversidadCoding/Segundo/Datos PD/archivo_info.txt"
+#Guardar en ruta el directorio de archivo_info.txt
 
-    Parámetros:
-    - id_archivo (str): ID del archivo en Google Drive.
-    - directorio_destino (str): Ruta del directorio local donde se guardará el archivo.
-    - archivo_destino (str): Nombre deseado para el archivo en local
+archivo_info = limpieza.procesar_archivo_info(ruta)
 
-    Devuelve:
-    - archivo_destino (str): Nombre del archivo guardado.
-    - ruta_completa (str): Ruta completa del archivo guardado.
-    """
-    # Construye la URL de descarga directa utilizando el ID del archivo
-    url = f"https://drive.google.com/uc?export=download&id={id_archivo}"
+print(archivo_info)
 
-    # Realiza la petición HTTP GET para descargar el archivo
-    respuesta = requests.get(url, allow_redirects=True)
+archivo_destino, ruta_completa = limpieza.descargar_archivo_directo(archivo_info[0][0],archivo_info[0][2],archivo_info[0][1])
 
-    # Comprueba que el directorio destino existe, si no, lo crea
-    os.makedirs(directorio_destino, exist_ok=True)
-
-    # Construye la ruta completa donde se guardará el archivo en local
-    ruta_completa = os.path.join(directorio_destino, archivo_destino)
-
-    # Guarda el contenido del archivo descargado en local
-    with open(ruta_completa, 'wb') as archivo:
-        archivo.write(respuesta.content)
-
-
-    return archivo_destino, ruta_completa
-
-def procesar_archivo_info(ruta_archivo_info):
-    """
-    Procesa un archivo de texto que contiene información sobre los archivos a descargar.
-
-    Parámetros:
-    - ruta_archivo_info (str): Ruta del archivo de texto que contiene los IDs de Google Drive,
-                               los nombres de los archivos locales y las rutas locales.
-
-    Devuelve:
-    - Una lista de tuplas con el ID de Google Drive, el nombre local del archivo, y la ruta local.
-    """
-    archivos_info = []
-    with open(ruta_archivo_info, 'r') as archivo:
-        for linea in archivo:
-            id_archivo, nombre_archivo, directorio_destino = linea.strip().split(',')
-            archivos_info.append((id_archivo, nombre_archivo, directorio_destino))
-    return archivos_info
-
+#print(archivo_destino,ruta_completa)
 
 
 # Lee el archivo CSV y almacena su contenido en un DataFrame
@@ -105,12 +66,12 @@ datos_viviendas["Latitud"] = datos_viviendas["Latitud"].fillna(cordenadas_aux["L
 datos_viviendas["Longitude"] = datos_viviendas["Longitude"].fillna(cordenadas_aux["Longitude"])
 print(dataframe_cord)
 
-"""
+
 ## Forma 1 Elimando las filas con NaN
 
 datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","Año_de_construccion"], inplace=True)
 
-"""
+
 ## Forma 2 Imputación de valores
 
 ## variables num_dormitorios

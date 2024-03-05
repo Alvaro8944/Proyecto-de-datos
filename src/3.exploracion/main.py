@@ -8,7 +8,7 @@ import pandas as pd
 ##Utilizar el fichero que contiene todas las filas, es decir, el que hemos logrado
 ##imputando vaores.
 
-url = "C:/Universidad/datosProyecto/DatosProcesadosConImputacion.csv"
+url = "E:/UniversidadCoding/Segundo/Datos PD/DatosProcesadosConImputacion.csv"
 datos = pd.read_csv(url)
 
 # Creamos un nuevo df que tendra solo las columnas numericas

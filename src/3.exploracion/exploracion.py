@@ -59,7 +59,7 @@ def boxplots(datos):
             plt.boxplot(datos[c])
 
             # Añade un título al gráfico
-            plt.title("Boxplot de una sola columna")
+            plt.title(f"{c}")
 
             # Añade etiquetas al eje x
             plt.xticks([1], [c])
