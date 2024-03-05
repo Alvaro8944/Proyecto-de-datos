@@ -30,7 +30,8 @@ exploracion.boxplots(df_drop)
 # Pasamos ahora a ver que datos producen los outliers de las coordenadas.
 # Nos damos cuenta que los distritos/ciudad "Comillas", "Rio" y "Alcorcón" tienen sus coordenadas
 # mal, esto es porque la libreria que se encarga de ello esta buscando otros lugares en vez
-# de los distritos de madrid. Visto esto tenemos que solucionarlos a mano en "limpieza.py".
+# de los distritos de madrid. Visto esto tenemos que solucionarlos a mano en "limpieza.py" (lo solucionaremos en la
+# siguiente version por falta de tiempo).
 exploracion.revisar_coordenadas(datos)
 
 
