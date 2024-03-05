@@ -2,8 +2,9 @@ import limpieza
 import pandas as pd
 import numpy as np
 
-##IMPORTANTE: Antes de ejecutar el codigo, asegurarse de que la linea 12 contiene tu ruta local de archivo_info.txt
-## y que la linea 107 tambien tenga una ruta local donde guardar los archivos de salida.
+##IMPORTANTE: Antes de ejecutar el codigo, asegurarse de que la linea 13 contiene tu ruta local de archivo_info.txt
+## y que la linea 107 tambien tenga una ruta local donde guardar los archivos de salida. Tambien modificar el archivo
+## archivo_info.txt para que el ultimo argumento de cada linea sea la ruta local donde descargar los datos del drive.
 
 #Descargar el archivo de los datos raw desde drive
 urls = []
@@ -78,13 +79,16 @@ datos_viviendas["Longitude"] = datos_viviendas["Longitude"].fillna(cordenadas_au
 #Se debe dejar una de las 2 formas comentada. Se puede ejecutar para cada una de las 2 versiones. Sin embargo
 # se debe modificar el nombre del archivo en la linea 107 en funcion de que version estemos obteniendo.
 
-"""
+
 ## Forma 1 Elimando las filas con NaN
 
 datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","Año_de_construccion"], inplace=True)
 
-"""
+# Convertir la columna 'Año_de_construccion' a tipo numérico (entero)
+datos_viviendas['Año_de_construccion'] = pd.to_numeric(datos_viviendas['Año_de_construccion'], errors='coerce')
 
+
+"""
 # Forma 2 Imputación de valores
 
 # Imputamos los valores NaN de los campos "dormitorios", "num_baños" y "Año de construccion" mediante regresiones
@@ -94,6 +98,7 @@ limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
 datos_viviendas["Num_baños"] = datos_viviendas["Num_baños"].round().astype(int)
 limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
 datos_viviendas["Año_de_construccion"] = datos_viviendas["Año_de_construccion"].round().astype(int)
+"""
 
 # Elimanos la variable planta debido a su gran número de Nulos y la variable localización porque es redundante con distrito
 datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
@@ -103,7 +108,7 @@ datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 # la forma 1 (preprocesado1.parquet) o la forma 2 (preprocesado2.parquet).
 
 #datos_viviendas.to_csv("E:/UniversidadCoding/Segundo/resultados.csv")
-datos_viviendas.to_parquet("E:/UniversidadCoding/Segundo/preprocesado2.parquet", engine='pyarrow')
+datos_viviendas.to_parquet("E:/UniversidadCoding/Segundo/preprocesado1.parquet", engine='pyarrow')
 
 
 
