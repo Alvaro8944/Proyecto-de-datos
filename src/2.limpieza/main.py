@@ -66,7 +66,7 @@ viviendas = ["casa","piso","atico"]
 filtro_viviendas = datos["Tipo"].isin(viviendas)
 datos_viviendas = datos[filtro_viviendas]
 
-#obtener cordenadas
+#obtener cordenadas, el código que está comentado tarda horas en ejecutarse, por eso te hemos dejado el csv
 ##dataframe_cord = datos_viviendas["distrito/ciudad"].apply(limpieza.get_coords)
 ##cordenadas_aux = datos_viviendas["Localización"].apply(limpieza.get_coords)
 dataframe_cord = pd.read_csv(urls[3],usecols = lambda columna: columna!= "Unnamed: 0")
