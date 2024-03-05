@@ -8,8 +8,10 @@ import pandas as pd
 ##Utilizar el fichero que contiene todas las filas, es decir, el que hemos logrado
 ##imputando vaores.
 
-url = "E:/UniversidadCoding/Segundo/Datos PD/DatosProcesadosConImputacion.csv"
-datos = pd.read_csv(url)
+url = "/Users/hamzatriki/2ªProyectoDeDatos/DatosProcesadosConImputacion"
+datos = pd.read_csv(url,usecols = lambda columna: columna!= "Unnamed: 0")
+
+print(datos.describe())
 
 # Creamos un nuevo df que tendra solo las columnas numericas
 df_drop = exploracion.drop_cualitativas(datos)
@@ -30,4 +32,6 @@ exploracion.boxplots(df_drop)
 # mal, esto es porque la libreria que se encarga de ello esta buscando otros lugares en vez
 # de los distritos de madrid. Visto esto tenemos que solucionarlos a mano en "limpieza.py".
 exploracion.revisar_coordenadas(datos)
+
+
 
