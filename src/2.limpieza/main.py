@@ -23,7 +23,6 @@ datos = pd.read_csv(ruta_completa,usecols = lambda columna: columna!= "Unnamed: 
 # Muestra las primeras filas del DataFrame para verificar que se ha leído correctamente
 print(datos.head())
 
-"""
 # Aplicamos la función string_to_int() a las columnas "Dormitorios","Superficie","Num_baños" en enteros
 ColumnasModificar = ["Dormitorios","Superficie","Num_baños"]
 for columna in ColumnasModificar:
@@ -87,8 +86,6 @@ datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
 datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 print(datos_viviendas.info())
 datos_viviendas.to_csv("/Users/hamzatriki/2ªProyectoDeDatos/DatosProcesadosConImputacion")
-
-"""
 
 
 
