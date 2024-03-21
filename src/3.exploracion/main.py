@@ -8,8 +8,8 @@ import pandas as pd
 ##Utilizar el fichero que contiene todas las filas, es decir, el que hemos logrado
 ##imputando vaores.
 
-url = "C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/preprocesado2.parquet"
-datos = pd.read_parquet(url,usecols = lambda columna: columna!= "Unnamed: 0")
+url = "/Users/hamzatriki/2ªProyectoDeDatos/preprocesado2.parquet"
+datos = pd.read_parquet(url)
 
 print(datos.describe())
 
