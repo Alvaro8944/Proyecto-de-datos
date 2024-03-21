@@ -122,3 +122,24 @@ def graf_puntos(df):
 
     plt.tight_layout()
     plt.show()
+
+def barras_tipo_etiqueta(df):
+    # Contar el número de instancias para cada valor de la característica categórica
+    count_data = df.groupby('Tipo_de_inmueble')['Etiqueta'].value_counts().unstack(fill_value=0)
+
+    # Configurar el estilo de los gráficos
+    sns.set(style="whitegrid")
+
+    # Crear el gráfico de barras
+    ax = count_data.plot(kind='bar', stacked=True, figsize=(10, 6))
+
+    # Añadir etiquetas y título
+    ax.set_ylabel('Número de Propiedades')
+    ax.set_xlabel('Tipo de Inmueble')
+    ax.set_title('Distribución de Propiedades por Tipo e Etiqueta')
+
+    # Mostrar el gráfico
+    plt.xticks(rotation=0)
+    plt.legend(title='Etiqueta')
+    plt.tight_layout()
+    plt.show()
