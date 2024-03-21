@@ -9,7 +9,7 @@ import pandas as pd
 ##imputando vaores.
 
 url = "/Users/hamzatriki/2ªProyectoDeDatos/DatosProcesadosConImputacion"
-datos = pd.read_csv(url,usecols = lambda columna: columna!= "Unnamed: 0")
+datos = pd.read_parquet("C:/Users/dalon/Desktop/UCM/2º/PROYECTO_DATOS_I/preprocesado2.parquet")
 
 print(datos.describe())
 
@@ -35,15 +35,15 @@ exploracion.boxplots(df_drop)
 exploracion.revisar_coordenadas(datos)
 
 #Mostramos histogramas para todas las variables númericas
-exploracion.histogramas(df_drop)
+exploracion.histogramas(datos)
 
 #Mostramos gráficas de puntos (scatter)
-exploracion.graf_puntos(df_drop)
+exploracion.graf_puntos(datos)
 
 #Mostramos una grafica de barras para ver la distribución de propiedades por Tipo y Etiqueta (scatter)
-exploracion.barras_tipo_etiqueta(df_drop)
+exploracion.barras_tipo_etiqueta(datos)
 
 #Mostramos un mapa creado con las coordenadas de cada inmueble.
-mapa = exploracion.crear_mapa(df_drop)
+mapa = exploracion.crear_mapa(datos)
 mapa
 
