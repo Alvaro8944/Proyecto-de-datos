@@ -34,5 +34,16 @@ exploracion.boxplots(df_drop)
 # siguiente version por falta de tiempo).
 exploracion.revisar_coordenadas(datos)
 
+#Mostramos histogramas para todas las variables númericas
+exploracion.histogramas(df_drop)
 
+#Mostramos gráficas de puntos (scatter)
+exploracion.graf_puntos(df_drop)
+
+#Mostramos una grafica de barras para ver la distribución de propiedades por Tipo y Etiqueta (scatter)
+exploracion.barras_tipo_etiqueta(df_drop)
+
+#Mostramos un mapa creado con las coordenadas de cada inmueble.
+mapa = exploracion.crear_mapa(df_drop)
+mapa
 
