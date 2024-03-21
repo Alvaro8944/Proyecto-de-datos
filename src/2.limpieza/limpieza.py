@@ -104,6 +104,27 @@ def transformar_en_dicotomicas(datos):
         datos[columna] = datos[columna].apply(string_to_dicotomic)
     return datos
 
+def analizar_localizacion_descripcion(texto,localizacion):
+    """
+    recibe un string que representa la descripción de la casa y una array con todos los distritosd y barrios de madrid,usamos
+    la descripción para mejorar la calidad de nuestra variable localización puesto que hay algunas propriedades donde solo pone
+    Madrid y no especifica el lugar
+    """
+
+    if not pd.isnull(texto):
+        texto = str(texto).lower()  # Convertir el objeto de Pandas a una cadena de texto y luego a minúsculas
+        regex_barrios_distritos = r'\b(?:' + '|'.join(localizacion) + r')\b'
+        expresion_regular = re.compile(regex_barrios_distritos, re.IGNORECASE)
+        coincidencia = expresion_regular.search(texto)
+        if coincidencia:
+            return coincidencia.group()
+        else:
+            return None
+    else:
+        return None
+
+
+
 def analizar_descripcion(texto):
     """Recibe un string que representa la descripción de cada vivienda, usamos la descripción para completar nuestros datos
     ya que tenemos algunos nulos en variables como "num_habitaciones" o "num_baños" y podemos sacar esa información de la descripción,
@@ -142,7 +163,7 @@ def transformar_localizacion(datos,urls):
     nom_localizaciones = np.append(nom_localizaciones,nom_municipios)
     nom_localizaciones = arreglar_localizaciones(nom_localizaciones)
     datos["distrito/ciudad"] = datos["Localización"].apply(lambda x: get_distrito(x, nom_localizaciones))
-    return datos
+    return datos,nom_localizaciones
 
 
 

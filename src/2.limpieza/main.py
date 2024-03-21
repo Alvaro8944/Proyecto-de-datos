@@ -10,7 +10,7 @@ import numpy as np
 urls = []
 
 #Reemplazar el valor de ruta con el directorio local donde se encuentre archivo_info
-ruta = "E:/UniversidadCoding/Segundo/Datos PD/archivo_info.txt"
+ruta = "/Users/hamzatriki/2ªProyectoDeDatos/archivo_info.txt"
 
 #Procesar el archivo_info.txt y guardar su informacion en la variable archivo_info
 archivo_info = limpieza.procesar_archivo_info(ruta)
@@ -47,6 +47,10 @@ datos["Precio"] = datos["Precio"].apply(limpieza.string_to_price)
 ## transformar las variables [Calefaccion","Ascensor","Aire acondicionado","Jardin"] en dicotómicas
 datos = limpieza.transformar_en_dicotomicas(datos)
 
+# Obtener el distrito de la vivienda
+urls2 = [urls[1],urls[2]]
+datos,nombre_distritos= limpieza.transformar_localizacion(datos,urls2)
+
 ## Analizar la descripción
 dataframe_descripcion = datos["Descripción"].apply(limpieza.analizar_descripcion)
 columnas =["Ascensor","Dormitorios","Num_baños","Año_de_construccion"]
@@ -54,12 +58,12 @@ dataframe_descripcion = pd.DataFrame(dataframe_descripcion.tolist(), columns = c
 for columna in columnas[1:]:
     datos[columna] = datos[columna].fillna(dataframe_descripcion[columna])
 datos["Ascensor"] = datos["Ascensor"].combine(dataframe_descripcion["Ascensor"],max)
+filtroMadrid = (datos["Localización"] == "Madrid")
+datos.loc[filtroMadrid,"Localización"] = datos['Localización'].apply(limpieza.analizar_localizacion_descripcion, localizacion=nombre_distritos)
 datos.loc[datos["Etiqueta"].isna(),"Etiqueta"] = "En proceso"
 
 
-# Obtener el distrito de la vivienda
-urls2 = [urls[1],urls[2]]
-datos= limpieza.transformar_localizacion(datos,urls2)
+
 
 # Nos quedamos solo con los viviendas de tipo "casa","piso"y "ático
 viviendas = ["casa","piso","atico"]
@@ -79,7 +83,7 @@ datos_viviendas["Longitude"] = datos_viviendas["Longitude"].fillna(cordenadas_au
 #Se debe dejar una de las 2 formas comentada. Se puede ejecutar para cada una de las 2 versiones. Sin embargo
 # se debe modificar el nombre del archivo en la linea 107 en funcion de que version estemos obteniendo.
 
-
+"""
 ## Forma 1 Elimando las filas con NaN
 
 datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","Año_de_construccion"], inplace=True)
@@ -87,8 +91,8 @@ datos_viviendas.dropna(subset=["Tipo_de_inmueble","Num_baños","Dormitorios","A�
 # Convertir la columna 'Año_de_construccion' a tipo numérico (entero)
 datos_viviendas['Año_de_construccion'] = pd.to_numeric(datos_viviendas['Año_de_construccion'], errors='coerce')
 
-
 """
+
 # Forma 2 Imputación de valores
 
 # Imputamos los valores NaN de los campos "dormitorios", "num_baños" y "Año de construccion" mediante regresiones
@@ -98,7 +102,7 @@ limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
 datos_viviendas["Num_baños"] = datos_viviendas["Num_baños"].round().astype(int)
 limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
 datos_viviendas["Año_de_construccion"] = datos_viviendas["Año_de_construccion"].round().astype(int)
-"""
+
 
 # Elimanos la variable planta debido a su gran número de Nulos y la variable localización porque es redundante con distrito
 datos_viviendas.dropna(subset=["Tipo_de_inmueble"], inplace=True)
@@ -106,9 +110,8 @@ datos_viviendas.drop(["Planta","Localización"], axis=1, inplace=True)
 
 # Finalmente guardamos el fichero. Se debe modificar la ruta local y el nombre del fichero en funcion cual version estemos obteniendo,
 # la forma 1 (preprocesado1.parquet) o la forma 2 (preprocesado2.parquet).
-
 #datos_viviendas.to_csv("E:/UniversidadCoding/Segundo/resultados.csv")
-datos_viviendas.to_parquet("E:/UniversidadCoding/Segundo/preprocesado1.parquet", engine='pyarrow')
+datos_viviendas.to_parquet("/Users/hamzatriki/2ªProyectoDeDatos/preprocesado2.parquet", engine='pyarrow')
 
 
 
