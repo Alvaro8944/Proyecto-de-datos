@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
+import folium
 
 def correlacion(data):
     """Muestra de forma gráfica la correlación entre las variables"""
@@ -76,3 +77,28 @@ def revisar_coordenadas(datos):
     df_outliers_latitud = df_outliers_latitud.reset_index(drop=True)
 
     print(df_outliers_latitud)
+
+def histogramas(df):
+    sns.set(style="whitegrid")
+
+    fig, axs = plt.subplots(3, 2, figsize=(12, 10))
+
+    sns.histplot(df["Precio"], kde=True, ax=axs[0, 0])
+    axs[0, 0].set_title('Histograma de Precio')
+
+    sns.histplot(df["Dormitorios"], kde=True, ax=axs[0, 1])
+    axs[0, 1].set_title('Histograma de Dormitorios')
+
+    sns.histplot(df["Superficie"], kde=True, ax=axs[1, 0])
+    axs[1, 0].set_title('Histograma de Superficie')
+
+    sns.histplot(df["Num_baños"], kde=True, ax=axs[1, 1])
+    axs[1, 1].set_title('Histograma de Num_baños')
+
+    sns.histplot(df["Año_de_construccion"], kde=True, ax=axs[2, 0])
+    axs[2, 0].set_title('Histograma de Año_de_construccion')
+
+    fig.delaxes(axs[2, 1])
+
+    plt.tight_layout()
+    plt.show()
