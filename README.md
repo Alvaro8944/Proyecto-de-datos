@@ -20,7 +20,11 @@ Se deben instalar ciertas librerias (listadas en "requirements.txt") para poder 
 
 En el modulo de adquisición está todo lo necesario para realizar web scraping en la web de "www.tecnocasa.es", pero no es necesario ejecutar su main a menos que se quieran obtener nuevos datos (en cuyo caso habria que unificar y asegurarse de no guardar datos duplicados que ya estuvieran en anteriores archivos). 
 
+
+
 En el módulo de limpieza se realiza todo el preprocesado de los datos raw obtenidos de la web. Para ejecutar el main en limpieza se debe verificar antes que se dispone del archivo "archivo_info.txt" y que se ha modificado con tus rutas locales para poder utilizarlo. Este archivo será utilizado para descargar desde el drive de nuestro proyecto todos los archivos necesarios para realizar el preprocesamiento de los datos. Hay 2 caminos que hemos tomado en el tratamiento de datos y es necesario comentar en el código uno de ellos al ejecutarlo. Manteniendo siempre 1 de las 2 formas comentadas nos aseguramos que el archivo que exportamos finalmente sea correcto (revisar los comentarios del main para más informacion). 
+
+
 
 En el módulo de exploracion se exploran los datos y se realizan algunas visualizaciones que ayudan a comprender mejor los datos. Para poder ejecutar el main es necesario haber descargado los datos preprocesados del drive del proyecto y modificar la ruta en el codigo con tu ruta local de los datos.
 
