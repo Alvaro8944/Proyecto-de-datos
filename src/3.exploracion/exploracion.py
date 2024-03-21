@@ -143,3 +143,11 @@ def barras_tipo_etiqueta(df):
     plt.legend(title='Etiqueta')
     plt.tight_layout()
     plt.show()
+
+def crear_mapa(df):
+    mapa = folium.Map(location=[df['Latitud'].mean(), df['Longitude'].mean()], zoom_start=10)
+
+    for index, row in df.iterrows():
+        folium.Marker(location=[row['Latitud'], row['Longitude']], popup=f"{row['Tipo_de_inmueble']}, Precio: {row['Precio']}€").add_to(mapa)
+
+    return mapa
