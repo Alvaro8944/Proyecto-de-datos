@@ -18,6 +18,8 @@ En primer lugar, se debe clonar el repositorio de este proyecto en tu dispositiv
 Se deben instalar ciertas librerias (listadas en "requirements.txt") para poder ejecutar el código desarrollado. El código esta dividido en 3 principales apartados. Cada modulo tiene un .py con todas las funciones necesarias y un main.py que ejecuta las funciones para lograr nuestros objetivos. 
 
 
+
+
 En el modulo de adquisición está todo lo necesario para realizar web scraping en la web de "www.tecnocasa.es", pero no es necesario ejecutar su main a menos que se quieran obtener nuevos datos (en cuyo caso habria que unificar y asegurarse de no guardar datos duplicados que ya estuvieran en anteriores archivos). 
 
 
