@@ -1,4 +1,4 @@
-# Intelligent Real state
+# Intelligent Real Estate
 
 <code> GIDIA - Proyecto de Datos </code>
 
