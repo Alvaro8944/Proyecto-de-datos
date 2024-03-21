@@ -102,3 +102,23 @@ def histogramas(df):
 
     plt.tight_layout()
     plt.show()
+
+
+def graf_puntos(df):
+    sns.set(style="whitegrid")
+
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+
+    sns.scatterplot(data=df, x="Superficie", y="Precio", ax=axs[0, 0], color="crimson")
+    axs[0, 0].set_title('Precio vs. Superficie')
+
+    sns.scatterplot(data=df, x="Dormitorios", y="Precio", ax=axs[0, 1], color="forestgreen")
+    axs[0, 1].set_title('Precio vs. Dormitorios')
+
+    sns.scatterplot(data=df, x="Num_baños", y="Precio", ax=axs[1, 0], color="gold")
+    axs[1, 0].set_title('Precio vs. Num_baños')
+
+    fig.delaxes(axs[1, 1])
+
+    plt.tight_layout()
+    plt.show()
