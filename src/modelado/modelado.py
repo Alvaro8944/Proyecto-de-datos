@@ -159,7 +159,7 @@ def linear_regression_model_rfe(X, y,custom):
 
     grid_search.fit(X_RFE, y)
 
-    resultados = crear_resguardo_modelo(nombre_modelo="linear_regression_model_grid_cv_rfe",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=True,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid_dictionary,results=grid_search.cv_results_)
+    resultados = crear_resguardo_modelo(nombre_modelo="linear_regression_model_grid_cv_rfe",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=True,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid,results=grid_search.cv_results_)
 
     return grid_search.best_estimator_, resultados, columnas_seleccionadas
 
@@ -171,7 +171,7 @@ def regularization_model_cross_validation(X_train_encoded, y_train,param_grid,mo
     grid_search.fit(X_train_encoded, y_train)
 
 
-    resultados = crear_resguardo_modelo(nombre_modelo=f"{type(modelo).__name__}_regression_model_grid_cv_rfe",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=False,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid_dictionary,results=grid_search.cv_results_)
+    resultados = crear_resguardo_modelo(nombre_modelo=f"{type(model).__name__}_regression_model_grid_cv_rfe",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=False,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid,results=grid_search.cv_results_)
 
     return grid_search.best_estimator_,resultados
 
