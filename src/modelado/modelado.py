@@ -5,6 +5,8 @@ from sklearn.base import clone
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import Lasso
 from sklearn.linear_model import ElasticNet
+from sklearn.model_selection import train_test_split
+
 
 
 def crear_resguardo_modelo(nombre_modelo,validation_error,cross_validation,stratify,RFE,grid,best_params = None,param_grid_dictionary= None,results=None):
@@ -26,3 +28,7 @@ def crear_resguardo_modelo(nombre_modelo,validation_error,cross_validation,strat
             resultados_cv.append(dictionary)
         resultados["cross_validation"] = resultados_cv
     return resultados;
+
+def split_train_trest(X,y,stratify =None):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3,stratify = stratify, random_state=42)
+    return X_train, X_test, y_train, y_test
