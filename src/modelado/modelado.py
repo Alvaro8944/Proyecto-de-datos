@@ -8,6 +8,7 @@ from sklearn.linear_model import Lasso
 from sklearn.linear_model import ElasticNet
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.model_selection import GridSearchCV
 import mlflow
 import mlflow.sklearn
 
@@ -124,5 +125,25 @@ def linear_regresion_model(X,y):
     resultados = crear_resguardo_modelo(nombre_modelo="linear_regression",validation_error=validation_error,cross_validation=False,stratify=True,RFE=False,grid =False)
 
     return model,resultados
+
+def linear_regression_cross_validation(X,y):
+    linear_reg = LinearRegression()
+
+    param_grid = {
+    'fit_intercept': [True, False],
+    'normalize': [True, False],
+    'positive': [True, False]
+    }
+
+    grid_search = GridSearchCV(estimator=linear_reg, param_grid=param_grid, cv=5, scoring='neg_mean_absolute_error')
+
+    grid_search.fit(X, y)
+
+    param_grid_dictionary =  {key: "" for key in param_grid.keys()}
+
+    resultados = crear_resguardo_modelo(nombre_modelo="linear_regression_model_cv",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=False,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid_dictionary,results=grid_search.cv_results_)
+
+
+    return grid_search.best_estimator_, resultados
 
 
