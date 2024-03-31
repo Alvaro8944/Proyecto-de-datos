@@ -147,3 +147,61 @@ def linear_regression_cross_validation(X,y):
     return grid_search.best_estimator_, resultados
 
 
+def get_related_features(X):
+    related_group = []
+    related_groups_name = ["Tipo_de_inmueble", "Etiqueta","Tipo_"]
+    for name in related_groups_name:
+        columnas_filtradas = X.filter(regex=name)
+        selected_column_names = columnas_filtradas.columns
+        related_features_index = [X.columns.get_loc(col_name) for col_name in selected_column_names]
+        related_group.append(related_features_index)
+    return related_group
+
+
+def get_protected_features(X):
+    columnas_filtradas = X.filter(regex='distrito|ciudad_')
+    selected_column_names = columnas_filtradas.columns
+    protected_features_index = [X.columns.get_loc(col_name) for col_name in selected_column_names]
+    return protected_features_index
+
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import GridSearchCV
+
+def linear_regression_model_rfe(X, y,custom):
+
+
+    related_group = None
+    protected_features_index = None
+
+    if custom:
+        related_group = get_related_features(X);
+        protected_features_index = get_protected_features(X)
+
+
+    rfe = CustomRFE(estimator=LinearRegression(), groups=related_group, protected_features=protected_features_index)
+
+    # Aplica el CustomRFE a tus datos
+    rfe.fit(X, y)
+
+    # Obtén las características seleccionadas
+    selected_features = rfe.support_
+    columnas_seleccionadas = X.columns[selected_features]
+    X_RFE = X[columnas_seleccionadas]
+
+    linear_reg = LinearRegression()
+
+    param_grid = {
+    'fit_intercept': [True, False],
+    'normalize': [True, False],
+    'positive': [True, False]
+    }
+
+    grid_search = GridSearchCV(estimator=linear_reg, param_grid=param_grid, cv=5, scoring='neg_mean_absolute_error')
+
+    grid_search.fit(X_RFE, y)
+
+    resultados = crear_resguardo_modelo(nombre_modelo="linear_regression_model_grid_cv_rfe",validation_error=grid_search.best_score_,cross_validation=True,stratify=True,RFE=True,grid=True,best_params=grid_search.best_params_,param_grid_dictionary=param_grid_dictionary,results=grid_search.cv_results_)
+
+    return grid_search.best_estimator_, resultados, columnas_seleccionadas
+
