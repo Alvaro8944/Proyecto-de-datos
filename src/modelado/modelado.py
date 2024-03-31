@@ -63,6 +63,28 @@ def one_hot_encoder(data):
     return encoded_data[0], encoded_data[1]
 
 
+class CustomRFE(RFE):
+    def __init__(self, estimator, n_features_to_select=None, step=1, groups=None, protected_features=None):
+        super().__init__(estimator, n_features_to_select=n_features_to_select, step=step)
+        self.groups = groups
+        self.protected_features = protected_features
+
+    def fit(self, X, y):
+        self.support_ = np.ones(X.shape[1], dtype=bool)
+        estimator = clone(self.estimator)
+        super().fit(X, y)
+        if self.groups or self.protected_features:
+            for idx, selected in enumerate(self.support_):
+                if not selected:
+                    for related_features in self.groups:
+                        if idx in related_features:
+                            for feature_idx in related_features:
+                                self.support_[feature_idx] = False
+                    if idx in self.protected_features:
+                        self.support_[idx] = True
+        return self
+
+
 def guardar_resultados_mlflow(diccionario_resultados, nombre_modelo, model):
     mlflow.set_experiment("ProyectoDeDatos")  # Nombre de tu experimento en MLflow
     with mlflow.start_run() as run:
