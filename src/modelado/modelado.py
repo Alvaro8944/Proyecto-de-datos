@@ -7,7 +7,8 @@ from sklearn.linear_model import Lasso
 from sklearn.linear_model import ElasticNet
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
-
+import mlflow
+import mlflow.sklearn
 
 
 
@@ -60,4 +61,34 @@ def one_hot_encoder(data):
         encoded_data.append(dato_encoded)
 
     return encoded_data[0], encoded_data[1]
+
+
+def guardar_resultados_mlflow(diccionario_resultados, nombre_modelo, model):
+    mlflow.set_experiment("ProyectoDeDatos")  # Nombre de tu experimento en MLflow
+    with mlflow.start_run() as run:
+        for key in diccionario_resultados.keys():
+            try:
+                if key == 'best_params':
+                    for param_key, param_value in diccionario_resultados[key].items():
+                        mlflow.log_param(f'best_{param_key}', param_value)
+                elif key == 'cross_validation':
+                    for dic in diccionario_resultados[key]:
+                        log_metric_text = ""
+                        for key,value in dic.items():
+                            if key != "test_score":
+                                log_metric_text+= f" {key}_ {value}"
+                            else:
+                                metric = value
+                        mlflow.log_metric(log_metric_text,metric)
+                elif "error" in key:
+                    mlflow.log_metric(key, diccionario_resultados[key])
+                else:
+                    mlflow.log_param(key, diccionario_resultados[key])
+            except KeyError as e:
+                print(f"Error al procesar la clave {key}: {str(e)}")
+                # Puedes agregar aquí otro manejo de errores o simplemente continuar
+        mlflow.sklearn.log_model(model, nombre_modelo)
+
+
+
 
