@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
 from sklearn.feature_selection import RFE
 from sklearn.base import clone
@@ -62,6 +63,10 @@ def one_hot_encoder(data):
 
     return encoded_data[0], encoded_data[1]
 
+ def calcular_error(model,X,y):
+    test_predictions = model.predict(X)
+    test_mse = mean_absolute_error(y, test_predictions)
+    return test_mse
 
 class CustomRFE(RFE):
     def __init__(self, estimator, n_features_to_select=None, step=1, groups=None, protected_features=None):
@@ -111,6 +116,13 @@ def guardar_resultados_mlflow(diccionario_resultados, nombre_modelo, model):
                 # Puedes agregar aquí otro manejo de errores o simplemente continuar
         mlflow.sklearn.log_model(model, nombre_modelo)
 
+def linear_regresion_model(X,y):
+    resultados = {}
+    model = LinearRegression()
+    model.fit(X,y)
+    validation_error = calcular_error(model,X,y)
+    resultados = crear_resguardo_modelo(nombre_modelo="linear_regression",validation_error=validation_error,cross_validation=False,stratify=True,RFE=False,grid =False)
 
+    return model,resultados
 
 
