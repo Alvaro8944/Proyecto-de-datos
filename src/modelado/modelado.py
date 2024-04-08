@@ -175,3 +175,28 @@ def regularization_model_cross_validation(X_train_encoded, y_train,param_grid,mo
 
     return grid_search.best_estimator_,resultados
 
+
+def one_hot_encoder(data):
+    encoded_data = []
+    for dato in data:
+        if isinstance(dato, pd.Series):
+            dato = pd.DataFrame(dato)
+        # Seleccionar las columnas categoricas
+        categorical_columns = dato.select_dtypes(include=["object"]).columns
+        encoder = OneHotEncoder(sparse=False)
+        ## Aplicar One Hot Encoding
+        encoded_columns = encoder.fit_transform(dato[categorical_columns])
+        # Recuperar el nombre de las columnas
+        new_columns = encoder.get_feature_names_out(categorical_columns)
+        # Crear un DataFrame con los datos codificados y el nombre de las columnas
+        data_encoded = pd.DataFrame(encoded_columns, columns=new_columns)
+        # Resetear index
+        dato.reset_index(drop=True, inplace=True)
+        data_encoded.reset_index(drop=True, inplace=True)
+        # Concatenar por columnas ambos DataFrames
+        dato_encoded = pd.concat([dato.drop(categorical_columns, axis=1), data_encoded], axis=1)
+        # Agregar el DataFrame codificado a la lista
+        encoded_data.append(dato_encoded)
+
+    return encoded_data[0], encoded_data[1]
+
