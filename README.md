@@ -31,6 +31,10 @@ En el módulo de limpieza se realiza todo el preprocesado de los datos raw obten
 En el módulo de exploracion se exploran los datos y se realizan algunas visualizaciones que ayudan a comprender mejor los datos. Para poder ejecutar el main es necesario haber descargado los datos preprocesados del drive del proyecto y modificar la ruta en el codigo con tu ruta local de los datos.
 
 
+
+En el módulo de modelado se han estudiado 3 técnicas distintas de aprendizaje automatico (regresión lineal/polinómica, arboles de decisión/random forest y redes neuronales). Cada una de estas técnicas exploradas esta en un notebook y tambien hay un archivo general con funciónes comunes que se han utilizado en todos los notebooks de las técnicas.
+
+
 ## 3- Integrantes del equipo
 
 - Hamza Triki
