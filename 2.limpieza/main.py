@@ -49,7 +49,7 @@ datos = limpieza.transformar_en_dicotomicas(datos)
 
 # Obtener el distrito de la vivienda
 urls2 = [urls[1],urls[2]]
-datos,nombre_distritos= limpieza.transformar_localizacion(datos,urls2)
+datos,nombre_distritos= limpieza.transformar_localizacion(datos, urls2)
 
 ## Analizar la descripción
 dataframe_descripcion = datos["Descripción"].apply(limpieza.analizar_descripcion)
@@ -96,11 +96,11 @@ datos_viviendas['Año_de_construccion'] = pd.to_numeric(datos_viviendas['Año_de
 # Forma 2 Imputación de valores
 
 # Imputamos los valores NaN de los campos "dormitorios", "num_baños" y "Año de construccion" mediante regresiones
-limpieza.imputar_valores(['Precio', 'Superficie'],'Dormitorios',datos_viviendas)
+limpieza.imputar_valores(['Precio', 'Superficie'], 'Dormitorios', datos_viviendas)
 datos_viviendas["Dormitorios"] = datos_viviendas["Dormitorios"].round().astype(int)
-limpieza.imputar_valores(['Precio', 'Superficie'],'Num_baños',datos_viviendas)
+limpieza.imputar_valores(['Precio', 'Superficie'], 'Num_baños', datos_viviendas)
 datos_viviendas["Num_baños"] = datos_viviendas["Num_baños"].round().astype(int)
-limpieza.imputar_valores(['Dormitorios', 'Superficie',"Num_baños","Precio"],'Año_de_construccion',datos_viviendas)
+limpieza.imputar_valores(['Dormitorios', 'Superficie', "Num_baños", "Precio"], 'Año_de_construccion', datos_viviendas)
 datos_viviendas["Año_de_construccion"] = datos_viviendas["Año_de_construccion"].round().astype(int)
 
 
